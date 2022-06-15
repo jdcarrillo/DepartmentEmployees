@@ -1,0 +1,63 @@
+﻿@model DepartmentEmployees.Data.Models.Departments;
+
+@using (Html.BeginForm("Update", "Department", FormMethod.Post))
+{
+	<div class="row justify-content-center">
+		<div class="table-responsive">
+			<table class="table table-condensed table-responsive table-hover table-striped" cellpadding="10" style="width:auto">
+				<tbody style="display: block;">
+					<tr>
+
+						@Html.HiddenFor(m => m.id)
+
+					<tr>
+					<tr>
+						<td>
+							<label for="name">Name</label>
+						</td>
+						<td>
+							@Html.EditorFor(m => m.name, new { htmlAttributes = new { style = "text-transform:uppercase" } })
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="phone">Phone</label>
+						</td>
+						<td>
+							@Html.EditorFor(m => m.phone)
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="description">Description</label>
+						</td>
+						<td>
+							@Html.EditorFor(m => m.description, new { htmlAttributes = new { style = "text-transform:uppercase" } })
+						</td>
+
+					</tr>
+					<tr>
+						<td>
+							<label for="id_enterprises">Company</label>
+						</td>
+						<td>
+							@Html.DropDownList("id_enterprises", new SelectList(ViewBag.enterprisesList, "Value", "Text", ViewBag.SelectedItem))
+						</td>
+					</tr>
+					<tr>
+						<td>@Html.LabelFor(m => m.status) </td>
+						<td>@Html.CheckBoxFor(m => m.status)</td>
+					</tr>
+
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+	<div align="center">
+		<button type="submit" class="btn btn-success text-center">Update</button>
+	</div>
+
+}
+
+<div id="result"></div>

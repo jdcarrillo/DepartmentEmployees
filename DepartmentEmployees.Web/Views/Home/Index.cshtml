@@ -1,0 +1,15 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+	<h1 class="display-4">Menu</h1>
+</div>
+<div class="text-center">
+	<ul class="nav navbar-nav">
+		<li>@Html.ActionLink("Enterprise", "Index", "Enterprise")</li>
+		<li>@Html.ActionLink("Department", "Index", "Department")</li>
+		<li>@Html.ActionLink("Employee", "Index", "Employee")</li>
+		<li>@Html.ActionLink("Department Employee", "Index", "DepartmentEmployee")</li>
+	</ul>
+</div>

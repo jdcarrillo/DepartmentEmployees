@@ -1,0 +1,14 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+	ViewData["Title"] = "Enterprise";
+}
+@model DepartmentEmployees.Models.DataModel;
+<div class="text-center">
+	<ul class="nav navbar-nav">
+		<li>@Html.ActionLink("Enterprise List", "GetAll", "Enterprise")</li>
+		<li>@Html.ActionLink("Enterprise Management", "EnterprisesDetails", "Enterprise")</li>
+	</ul>
+	@Html.ActionLink("Back", "Index", "Home")
+</div>

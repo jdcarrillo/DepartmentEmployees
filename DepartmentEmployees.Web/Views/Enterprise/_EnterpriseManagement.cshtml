@@ -1,0 +1,37 @@
+﻿@model DepartmentEmployees.Data.Models.Enterprises
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+	ViewData["Title"] = "Enterprise Management";
+}
+<h4>@ViewData["Title"]</h4>
+@using (Html.BeginForm("Save", "Enterprise", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	<h1>Companies</h1>
+	<br />
+	@Html.LabelFor(m => m.name)
+	<br />
+	@Html.TextBoxFor(m => m.name, new { style = "text-transform:uppercase" })
+	@Html.ValidationMessageFor(m => m.name, "", new { @class = "text-danger" })
+	<br />
+	@Html.LabelFor(m => m.phone)
+	<br />
+	@Html.TextBoxFor(m => m.phone)
+	@Html.ValidationMessageFor(m => m.phone, "", new { @class = "text-danger" })
+	<br />
+	@Html.LabelFor(m => m.address)
+	<br />
+	@Html.TextBoxFor(m => m.address, new { style = "text-transform:uppercase" })
+	@Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+	<br />
+	<div class="checkbox">
+		@Html.LabelFor(m => m.status) @Html.CheckBoxFor(m => m.status)
+	</div>
+	<br />
+	<input type="submit" name="btnSave" value='Save' />
+	<br />
+	<br />
+	<div>@Html.ActionLink("Back", "Index", "Enterprise")</div>
+}

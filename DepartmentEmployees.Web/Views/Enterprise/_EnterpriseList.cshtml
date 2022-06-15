@@ -1,0 +1,102 @@
+﻿
+@model DepartmentEmployees.Models.DataModel;
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+	ViewData["Title"] = "Enterprise List";
+}
+<h4>@ViewData["Title"]</h4>
+<table class="table table-responsive table-condensed table-hover table-striped" id="tbldataEnterprise" style="width:800px">
+	<thead>
+		<tr>
+			<th>
+				Id
+			</th>
+			<th>
+				Name
+			</th>
+			<th>
+				Address
+			</th>
+			<th>
+				Phone
+			</th>
+			<th>
+				Status
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody id="dataEnterprise">
+		@foreach (var item in Model.enterpriseModels)
+		{
+			<tr>
+				<th scope="row">@item.id</th>
+				<td>
+					@String.Format("{0}", item.name).ToString().ToUpper()
+				</td>
+				<td>
+					@String.Format("{0}", item.address).ToString().ToUpper()
+				</td>
+				<td>
+					@String.Format("{0}", item.phone).ToString().ToUpper()
+
+				</td>
+				<td>
+					@String.Format("{0}", item.status != true ? "INACTIVE" : "ACTIVE").ToString()
+
+				</td>
+				<td>
+					<a data-value="@item.id"
+					   href="javascript:void(0)" class="btnEdit">
+						<i class="fa fa-edit">Edit</i>
+					</a> |
+					@Html.ActionLink("Delete", "Delete", new { id = item.id })
+				</td>
+			</tr>
+
+		}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td>
+				@Html.ActionLink("Back", "Index", "Enterprise")
+			</td>
+		</tr>
+	</tfoot>
+</table>
+<div class="clearfix"></div>
+
+<div id="dialog" title="edit view" style="overflow: hidden;"></div>
+@section Scripts{
+	<script type="text/javascript">
+
+
+        $(function () {
+            var id = 0;
+			$( document ).on( 'click', '.btnEdit', function () {
+
+				id = $( this ).attr( "data-value" );
+                $('#dialog').dialog('open');
+            });
+
+            $('#dialog').dialog({
+                autoOpen: false,
+                width: 800,
+                resizable: false,
+                title: 'Enterprise Edit',
+                modal: true,
+                open: function (event, ui) {
+                    // Load partial view _GridEditPartial
+					$( this ).load( "@Url.Action("GetById")", { id: id });
+                },
+                buttons: {
+                    "Close": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
+	</script>
+}

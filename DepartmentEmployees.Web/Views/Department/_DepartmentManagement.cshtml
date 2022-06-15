@@ -1,0 +1,56 @@
+﻿@model DepartmentEmployees.Web.DTO.DepartmentsDTO
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+	ViewData["Title"] = "Department Management List";
+}
+<h4>@ViewData["Title"]</h4>
+@using (Html.BeginForm("Save", "Department", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+
+	<h1>Department</h1>
+	<br />
+	<div>
+		@if (Model.enterprisesList != null && Model.enterprisesList.Count() > 0)
+		{
+			@Html.LabelFor(m => m.enterprisesList)
+			var selectedItem = Model.enterprisesList;
+			@Html.DropDownList("id_enterprises", new SelectList(Model.enterprisesList, "Value", "Text", selectedItem), new
+		{
+			@class = "form-control",
+			@Style = "text-transform: uppercase"
+		})
+		}
+	</div>
+	<br />
+	@Html.LabelFor(m => m.name)
+	<br />
+	@Html.TextBoxFor(m => m.name, new { style = "text-transform:uppercase" })
+	@Html.ValidationMessageFor(m => m.name, "", new { @class = "text-danger" })
+	<br />
+	@Html.LabelFor(m => m.phone)
+	<br />
+	@Html.TextBoxFor(m => m.phone)
+	@Html.ValidationMessageFor(m => m.phone, "", new { @class = "text-danger" })
+	<br />
+	@Html.LabelFor(m => m.description)
+	<br />
+	@Html.TextBoxFor(m => m.description, new { style = "text-transform:uppercase" })
+	@Html.ValidationMessageFor(m => m.description, "", new { @class = "text-danger" })
+
+	<br />
+	<div class="checkbox">
+		@Html.LabelFor(m => m.status) @Html.CheckBoxFor(m => m.status)
+	</div>
+
+	<br />
+	<input type="submit" name="btnSave" value='Save' />
+	<br />
+	<br />
+	<div>@Html.ActionLink("Back", "Index", "Department")</div>
+
+	@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+}

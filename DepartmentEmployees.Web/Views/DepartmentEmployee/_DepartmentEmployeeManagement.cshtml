@@ -1,0 +1,209 @@
+﻿@model DepartmentEmployees.Web.DTO.DepartmentEmployeeDTO
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+	ViewData["Title"] = "Department Employee Management";
+}
+<h4>@ViewData["Title"]</h4>
+@using (Html.BeginForm("Save", "DepartmentEmployee", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+
+	<h1>Department Employee</h1>
+	<br />
+	<div class="row col-6">
+
+		@if (ViewBag.SelectedItemEmployees != null && ViewBag.SelectedItemDepartments != null)
+		{
+			<div class="col-auto">
+				@Html.DropDownList("SelectedItemEmployees")
+			</div>
+			<div class="col-auto">
+				@Html.DropDownList("SelectedItemDepartments")
+			</div>
+			<div class="col-1">
+				<input class="btn btn-info" type="button" value="Assign" id="addDepartmentEmployee" />
+			</div>
+		}
+
+	</div>
+	<br />
+	<div class="table-responsive">
+		<div>
+			<table class="table table-responsive table-condensed table-hover table-striped" id="tblDepartmentEmployee" style="width:auto">
+				<thead>
+					<tr>
+						<th>
+							#
+						</th>
+						<th>
+							Employee
+						</th>
+						<th>
+							Department
+						</th>
+						<th>
+							Status
+						</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<br />
+
+	<br />
+	<br />
+	<input type="submit" id="btnSave" name="btnSave" value='Save' class="btn btn-success" />
+	<br />
+	<br />
+	<div>@Html.ActionLink("Back", "Index", "Department")</div>
+
+	@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+}
+@section Scripts{
+	<script type="text/javascript">
+		$( document ).ready( function () {
+			let i = 1;
+			$( '#btnSave' ).hide();
+			var valueEmployee = '';
+			var valueDepartment = '';
+
+			$( '#addDepartmentEmployee' ).click( function () {
+
+
+				valueEmployee = $( '#SelectedItemEmployees' ).find( "option:selected" ).val()
+				valueDepartment = $( '#SelectedItemDepartments' ).find( "option:selected" ).val()
+				if ( valueEmployee != -1 && valueDepartment != -1 ) {
+					$( '#tblDepartmentEmployee' ).removeAttr( 'hidden' );
+					$( '#status' ).attr( 'checked', 'checked' );
+
+
+					//Get DropDownlist selected item index
+					var selectedIndexEmployee = $( '#SelectedItemEmployees' ).find( "option:selected" ).index();
+					//Get DropDownlist selected item value
+					var selectedValueEmployee = $( '#SelectedItemEmployees' ).find( "option:selected" ).val();
+					//Get DropDownlist selected item text
+					var selectedTextEmployee = $( '#SelectedItemEmployees' ).find( "option:selected" ).text();
+
+
+					//Get DropDownlist selected item index
+					var selectedIndexDepartment = $( '#SelectedItemDepartments' ).find( "option:selected" ).index();
+					//Get DropDownlist selected item value
+					var selectedValueDepartment = $( '#SelectedItemDepartments' ).find( "option:selected" ).val();
+					//Get DropDownlist selected item text
+					var selectedTextDepartment = $( '#SelectedItemDepartments' ).find( "option:selected" ).text();
+
+
+
+					var tr;
+					tr = $( '<tr/>' );
+					tr.append( "<td>" + i++ + "</td>" );//ID
+					tr.append( "<td hidden>" + selectedValueEmployee + "</td>" );
+					tr.append( "<td>" + selectedTextEmployee + "</td>" );
+					tr.append( "<td hidden>" + selectedValueDepartment + "</td>" );
+					tr.append( "<td>" + selectedTextDepartment + "</td>" );
+					tr.append( "<td>" + '<input class="checkbox" type="checkbox" id="status" checked/>' + "</td>" );
+					tr.append( "<td class='action'><a href='#' id='btnDelete'>Delete</a></td></tr>" );
+					$( '#tblDepartmentEmployee' ).append( tr );
+
+
+
+					$( "#SelectedItemEmployees" ).find( "option:selected" ).remove();
+					$( "#SelectedItemDepartments" ).find( "option:selected" ).remove();
+					//$( '#addDepartmentEmployee' ).prop( 'disabled', true );
+
+					$( '#btnSave' ).show();
+				}
+				else {
+					alert( 'Please, select a Employee and Department' );
+					$( '#addDepartmentEmployee' ).prop( 'disabled', false );
+					$( '#SelectedItemDepartments' ).prop( 'disabled', false );
+
+				}
+
+			} );
+
+			$( document ).on( "click", "#btnDelete", function ( e ) {
+				e.preventDefault();
+
+
+				var currentRow = $( this ).closest( "tr" );
+				var selectedValueEmployee = currentRow.find( "td:eq(1)" ).text();
+				var selectedTextEmployee = currentRow.find( "td:eq(2)" ).text();
+				var selectedValueDepartment = currentRow.find( "td:eq(3)" ).text();
+				var selectedTextDepartment = currentRow.find( "td:eq(4)" ).text();
+
+
+				var newOptionEmployees = $( '<option>' );
+				newOptionEmployees.attr( 'value', selectedValueEmployee ).text( selectedTextEmployee );
+				$( '#SelectedItemEmployees' ).append( newOptionEmployees );
+
+				var newOptionDepartments = $( '<option>' );
+				newOptionDepartments.attr( 'value', selectedValueDepartment ).text( selectedTextDepartment );
+				$( '#SelectedItemDepartments' ).append( newOptionDepartments );
+
+
+				$( this ).parents( "tr" ).remove();
+				i--;
+			} );
+
+
+			$( "form" ).on( "submit", function ( e ) {
+				e.preventDefault();
+				var url = "/DepartmentEmployee/Save";
+				var formdata = ( window.FormData ) ? new FormData( this ) : null;
+				var fdata = ( formdata !== null ) ? formdata : $form.serialize();
+
+				var DepartmentsEmployees = new Array();
+				$( "#tblDepartmentEmployee TBODY TR" ).each( function () {
+					var row = $( this );
+					var itemDetails = {};
+
+					itemDetails.id_employee = row.find( "TD" ).eq( 1 ).html();
+					itemDetails.id_department = row.find( "TD" ).eq( 3 ).html();
+					//status = row.find( "TD" ).eq( 5 ).html();
+
+					if ( itemDetails.id_employee != null ) {
+						DepartmentsEmployees.push( itemDetails );
+					}
+				} );
+
+
+				DepartmentsEmployees = JSON.stringify( DepartmentsEmployees );
+				fdata.append( "DepartmentsEmployeesJson", DepartmentsEmployees );
+
+
+				$.ajax( {
+					type: "POST",
+					url: url,
+					data: fdata,
+					processData: false,
+					contentType: false,
+					dataType: "json",
+					success: function ( data ) {
+
+						if ( data.Success ) {
+
+
+						}
+						else {
+
+						}
+					},
+					error: function ( xhr, ajaxOptions, thrownError ) {
+
+					}
+				} );
+			} );
+
+		} );
+	</script>
+}

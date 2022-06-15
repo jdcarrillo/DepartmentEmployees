@@ -1,0 +1,24 @@
+﻿@model DepartmentEmployees.Data.Models.Enterprises;
+
+@using (Html.BeginForm("Update", "Enterprise", FormMethod.Post))
+{
+	<div class="form-group">
+		<div class="row">
+			@Html.HiddenFor(m => m.id) <br />
+			<label for="name">Name</label>
+			@Html.EditorFor(m => m.name, new { htmlAttributes = new { style = "text-transform:uppercase" } }) <br />
+			<label for="Phone">Phone</label>
+			@Html.EditorFor(m => m.phone)
+		</div>
+		<div class="row">
+			<label for="status">Status</label>
+			@Html.EditorFor(m => m.status)
+		</div>
+	</div>
+
+	<div align="center">
+		<button type="submit" class="btn btn-success text-center">Update</button>
+	</div>
+}
+
+<div id="result"></div>

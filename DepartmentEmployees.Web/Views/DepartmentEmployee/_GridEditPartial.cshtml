@@ -1,0 +1,66 @@
+﻿@model DepartmentEmployees.Data.Models.Employees;
+
+@using (Html.BeginForm("Update", "DepartmentEmployee", FormMethod.Post))
+{
+
+	<div class="row justify-content-center">
+		<div class="table-responsive">
+			<table class="table table-condensed table-responsive table-hover table-striped" cellpadding="10" style="width:auto">
+				<tbody style="display: block;">
+					<tr>
+						@Html.HiddenFor(m => m.id)
+					</tr>
+					<tr>
+						<td><label for="surname">Name</label></td>
+						<td>
+							@Html.EditorFor(m => m.name, new { htmlAttributes = new { style = "text-transform:uppercase" } })
+						</td>
+					</tr>
+					<tr>
+						<td><label for="name">Surname</label></td>
+						<td>
+							@Html.EditorFor(m => m.surname, new { htmlAttributes = new { style = "text-transform:uppercase" } })
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="age">Age</label>
+						</td>
+						<td>
+							@Html.EditorFor(m => m.age)
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="email">Email</label>
+						</td>
+						<td>
+							@Html.EditorFor(m => m.email)
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="position">Position</label>
+						</td>
+						<td>
+							@Html.EditorFor(m => m.position, new { htmlAttributes = new { style = "text-transform:uppercase" } })
+						</td>
+					</tr>
+					<tr>
+						<td>@Html.LabelFor(m => m.status) </td>
+						<td>@Html.CheckBoxFor(m => m.status)</td>
+					</tr>
+
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+
+
+	<div align="center">
+		<button type="submit" class="btn btn-success text-center">Update</button>
+	</div>
+}
+
+<div id="result"></div>

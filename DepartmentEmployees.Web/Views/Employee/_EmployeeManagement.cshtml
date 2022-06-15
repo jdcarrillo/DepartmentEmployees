@@ -1,0 +1,51 @@
+﻿@model DepartmentEmployees.Data.Models.Employees
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+	ViewData["Title"] = "Employee Management";
+}
+<h4>@ViewData["Title"]</h4>
+@using (Html.BeginForm("Save", "Employee", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	<h1>Employee</h1>
+	<br />
+	@Html.LabelFor(m => m.name)
+	<br />
+	@Html.TextBoxFor(m => m.name, new { style = "text-transform:uppercase" })
+	@Html.ValidationMessageFor(m => m.name, "", new { @class = "text-danger" })
+	<br />
+	@Html.LabelFor(m => m.surname)
+	<br />
+	@Html.TextBoxFor(m => m.surname, new { style = "text-transform:uppercase" })
+	@Html.ValidationMessageFor(m => m.surname, "", new { @class = "text-danger" })
+
+	<br />
+	@Html.LabelFor(m => m.age)
+	<br />
+	@Html.TextBoxFor(m => m.age)
+	@Html.ValidationMessageFor(m => m.age, "", new { @class = "text-danger" })
+
+	<br />
+	@Html.LabelFor(m => m.email)
+	<br />
+	@Html.TextBoxFor(m => m.email)
+	@Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+	<br />
+	@Html.LabelFor(m => m.position)
+	<br />
+	@Html.TextBoxFor(m => m.position, new { style = "text-transform:uppercase" })
+	@Html.ValidationMessageFor(m => m.position, "", new { @class = "text-danger" })
+
+	<br />
+	<div class="checkbox">
+		@Html.LabelFor(m => m.status) @Html.CheckBoxFor(m => m.status)
+	</div>
+	<br />
+	<input type="submit" name="btnSave" value='Save' />
+	<br />
+	<br />
+	<div>@Html.ActionLink("Back", "Index", "Employee")</div>
+
+}
